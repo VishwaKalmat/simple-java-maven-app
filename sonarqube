@@ -4,7 +4,7 @@ pipeline {
         stage('Build stage') {
             steps {
                 echo 'This is a build stage'
-                sh 'sleep 5'
+                sh 'mvn clean install'
             }
         }
         stage('Push stage') {
@@ -16,9 +16,9 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    def scannerHome = tool 'sonar_qube_scan1'
-                    withSonarQubeEnv('sonar_qube_server1') {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=my_first_project_key"
+                    def scannerHome = tool 'SonarQubeScanner'
+                    withSonarQubeEnv('Your_SonarQube_Server_Name') {
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=my_first_project_key -Dsonar.java.binaries=target/classes"
                     }
                 }
             }
